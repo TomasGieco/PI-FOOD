@@ -5,12 +5,32 @@ module.exports = (sequelize) => {
   // defino el modelo
   sequelize.define('recipe', {
     id:{
-      type: DataTypes.STRING,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
       allowNull: false,
+      primaryKey: true,
     },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    plateSummary:{
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    calification:{
+      type: DataTypes.INTEGER
+    },
+    healthyLevel:{
+      type: DataTypes.INTEGER
+    },
+    instructions:{
+      type: DataTypes.TEXT
+    },
+    createdInDb:{
+      type: DataTypes.BOOLEAN,
+      allowNull:false,
+      defaultValue:true,
+    }
   });
 };
