@@ -2,8 +2,8 @@ const { Router } = require('express');
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
 const axios = require('axios');
-const Recipe = require('../models/Recipe');
-const Diet = require('../models/Diet');
+const {Recipe,Diet} = require('../db');
+const e = require('express');
 
 const router = Router();
 
@@ -14,6 +14,7 @@ const getApiInfo = async () =>{
     const apiUrl = await axios.get('https://api.spoonacular.com/recipes/complexSearch?number=100&addRecipeInformation=true&diet&apiKey=8f2711bdb9cf485eb121507bd0055230');
     const apiInfo = await apiUrl.data.results.map(el=>{
         return {
+            id: el.id,
             title: el.title,
             image: el.image,
             diets: el.diets,
@@ -45,8 +46,46 @@ const getAllRecipes = async ()=>{
     return infoTotal;
 }
 
-router.get('/recipes', (req,res)=>{
-    const recipes = getAllRecipes()
+router.get('/recipes', async (req,res)=>{
+    const recipes = await getAllRecipes()
+    const name = req.query.name
+    if(name){
+        let recipeNames = recipes.filter(e => e.title.toLowerCase().includes(name.toLowerCase()));
+        recipeNames.length ? 
+        res.status(200).send(recipeNames) : 
+        res.status(404).send('No hay receta Disponible')
+    }
+    else{
+        res.status(200).send(recipes)
+    }
+});
+
+router.get('/recipes/:id', async (req,res)=>{
+    const recipes = await getAllRecipes()
+    const { id } = req.params
+    
+    let recipeId = recipes.find( e => e.id == id)
+    recipeId ?
+    res.status(200).json({summary: recipeId.summary, diets: recipeId.diets}):
+    res.status(404).send('No existe receta con ese Id')
+});
+
+router.get('/types', async (req,res)=>{
+    let apiInfo = await getApiInfo()
+    let dietArray = []
+    apiInfo.forEach(e => {
+        e.diets.forEach(element=>{
+            if(!dietArray.includes(element)){
+                dietArray = dietArray.concat(element);
+            }
+        })
+    });
+    dietArray.map(e => Diet.create({ name: e }));
+    res.status(200).json(dietArray)
+});
+
+router.post('/recipe', async (req,res)=>{
+    
 });
 
 module.exports = router;
