@@ -71,8 +71,21 @@ router.get('/recipes/:id', async (req,res)=>{
 });
 
 router.get('/types', async (req,res)=>{
-    let apiInfo = await getApiInfo()
+    let apiInfo = await getAllRecipes()
     let dietArray = []
+    let defaultDiet= [
+        "gluten free",
+        "ketogenic",
+        "vegetarian",
+        "lacto vegetarian",
+        "ovo vegetarian",
+        "vegan",
+        "pescetarian",
+        "paleo",
+        "primal",
+        "low fodmap",
+        "whole30",
+    ]
     apiInfo.forEach(e => {
         e.diets.forEach(element=>{
             if(!dietArray.includes(element)){
@@ -80,12 +93,33 @@ router.get('/types', async (req,res)=>{
             }
         })
     });
-    dietArray.map(e => Diet.create({ name: e }));
+    if(dietArray.length){
+        dietArray.map(e => Diet.create({ name: e }));
+    }else{
+
+    }
     res.status(200).json(dietArray)
 });
 
 router.post('/recipe', async (req,res)=>{
-    
+    const { title, summary, spoonacularScore, healthScore, analyzedInstructions, image, createdInDb, diets } = req.body
+
+    let recipeCreated = await Recipe.create({
+        title, 
+        summary,
+        spoonacularScore, 
+        healthScore, 
+        analyzedInstructions, 
+        image, 
+        createdInDb
+    })
+
+    let dietDb = await Diet.findAll({
+        where: { name: diets }
+    });
+
+    recipeCreated.addDiet(dietDb)
+    res.send('Receta cargada con exito')
 });
 
 module.exports = router;
