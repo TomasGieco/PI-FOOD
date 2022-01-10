@@ -86,6 +86,7 @@ router.get('/types', async (req,res)=>{
         "low fodmap",
         "whole30",
     ]
+    
     apiInfo.forEach(e => {
         e.diets.forEach(element=>{
             if(!dietArray.includes(element)){
@@ -93,11 +94,11 @@ router.get('/types', async (req,res)=>{
             }
         })
     });
-    if(dietArray.length){
-        dietArray.map(e => Diet.create({ name: e }));
-    }else{
 
-    }
+    dietArray.length?
+        dietArray.map(e => Diet.create({ name: e })) :
+        defaultDiet.map(e => Diet.create({ name: e }))
+    
     res.status(200).json(dietArray)
 });
 
