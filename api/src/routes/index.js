@@ -4,6 +4,7 @@ const { Router } = require('express');
 const axios = require('axios');
 const {Recipe,Diet} = require('../db');
 const e = require('express');
+const {API_KEY} = process.env
 
 const router = Router();
 
@@ -11,7 +12,7 @@ const router = Router();
 // Ejemplo: router.use('/auth', authRouter);
 
 const getApiInfo = async () =>{
-    const apiUrl = await axios.get('https://api.spoonacular.com/recipes/complexSearch?number=100&addRecipeInformation=true&diet&apiKey=8f2711bdb9cf485eb121507bd0055230');
+    const apiUrl = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?number=100&addRecipeInformation=true&diet&apiKey=${API_KEY}`);
     const apiInfo = await apiUrl.data.results.map(el=>{
         return {
             id: el.id,
@@ -50,7 +51,9 @@ router.get('/recipes', async (req,res)=>{
     const recipes = await getAllRecipes()
     const name = req.query.name
     if(name){
-        let recipeNames = recipes.filter(e => e.title.toLowerCase().includes(name.toLowerCase()));
+        const apiUrl = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?number=100&query=${name}&addRecipeInformation=true&diet&apiKey=${API_KEY}`);
+        filtered = apiUrl.data.results.concat(await getDbInfo())
+        let recipeNames = filtered.filter(e => e.title.toLowerCase().includes(name.toLowerCase()));
         recipeNames.length ? 
         res.status(200).send(recipeNames) : 
         res.status(404).send('No hay receta Disponible')

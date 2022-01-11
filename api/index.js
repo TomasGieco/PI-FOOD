@@ -19,9 +19,27 @@
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 const server = require('./src/app.js');
 const { conn } = require('./src/db.js');
+const { Diet} = require('../api/src/db');
 
 // Syncing all the models at once.
 conn.sync({ force: true }).then(() => {
+
+  let defaultDiet= [
+    "gluten free",
+    "ketogenic",
+    "vegetarian",
+    "lacto vegetarian",
+    "ovo vegetarian",
+    "vegan",
+    "pescetarian",
+    "paleo",
+    "primal",
+    "low fodmap",
+    "whole30",
+  ]
+
+  defaultDiet.map(e => Diet.create({ name: e }))
+
   server.listen(3001, () => {
     console.log('%s listening at 3001'); // eslint-disable-line no-console
   });
