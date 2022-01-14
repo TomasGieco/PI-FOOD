@@ -19,12 +19,10 @@
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 const server = require('./src/app.js');
 const { conn } = require('./src/db.js');
-const { Diet} = require('../api/src/db');
+const { Diet } = require('../api/src/db');
 
-// Syncing all the models at once.
-conn.sync({ force: true }).then(() => {
-
-  let defaultDiet= [
+async function dietCreate() {
+  let defaultDiet = [
     "gluten free",
     "ketogenic",
     "vegetarian",
@@ -39,8 +37,12 @@ conn.sync({ force: true }).then(() => {
   ]
 
   defaultDiet.map(e => Diet.create({ name: e }))
+}
 
-  server.listen(3001, () => {
+// Syncing all the models at once.
+conn.sync({ force: true }).then(() => {
+  server.listen(3001, async () => {
     console.log('%s listening at 3001'); // eslint-disable-line no-console
+    await dietCreate()
   });
 });
