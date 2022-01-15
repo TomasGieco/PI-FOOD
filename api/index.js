@@ -24,16 +24,14 @@ const { Diet } = require('../api/src/db');
 async function dietCreate() {
   let defaultDiet = [
     "gluten free",
-    "ketogenic",
-    "vegetarian",
-    "lacto vegetarian",
-    "ovo vegetarian",
+    "dairy free",
+    "lacto ovo vegetarian",
     "vegan",
-    "pescetarian",
-    "paleo",
+    "paleolithic",
     "primal",
-    "low fodmap",
-    "whole30",
+    "pescatarian",
+    "fodmap friendly",
+    "whole 30"
   ]
 
   defaultDiet.map(e => Diet.create({ name: e }))

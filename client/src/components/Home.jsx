@@ -1,12 +1,28 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { getRecipes } from "../actions/actions";
+import { filterRecipesByDiets, filterRecipesByPoints, filterRecipesByTitle, getRecipes } from "../actions/actions";
 import Card from "./Card"
+import Paginado from "./Paginado";
+import SearchBar from "./SearchBar";
 
 export default function Home() {
     const dispatch = useDispatch()
     const allRecipes = useSelector((state) => state.recipes)
+
+    {/*                PAGINADO                  */ }
+
+    const [currentPage, setCurrentPage] = useState(1)
+    const [recipesPerPage, setRecipesPerPage] = useState(9)
+    const [ordenTitle, setOrdenTitle] = useState("")
+    const [ordenPoints, setOrdenPoints] = useState("")
+    const indexOfLastRecipe = currentPage * recipesPerPage
+    const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage
+    const currentRecipes = allRecipes.slice(indexOfFirstRecipe, indexOfLastRecipe)
+
+    const paginado = (pageNumber) => {
+        setCurrentPage(pageNumber)
+    }
 
     useEffect(() => {
         dispatch(getRecipes());
@@ -17,47 +33,69 @@ export default function Home() {
         dispatch(getRecipes());
     }
 
+    function handleFilterDiets(e) {
+        e.preventDefault();
+        dispatch(filterRecipesByDiets(e.target.value))
+    }
+
+    function handleFilterTitle(e) {
+        e.preventDefault();
+        dispatch(filterRecipesByTitle(e.target.value))
+        setCurrentPage(1);
+        setOrdenTitle(`Ordenado ${e.target.value}`)
+    }
+
+    function handleFilterPoints(e) {
+        e.preventDefault();
+        dispatch(filterRecipesByPoints(e.target.value))
+        setCurrentPage(1);
+        setOrdenPoints(`Ordenado ${e.target.value}`)
+    }
+
     return (
         <div>
-            <Link to='/recipes'> Crear Personaje </Link>
+            <Link to='/recipes'> Crear Recetas </Link>
             <h1>Aguante el morfi</h1>
             <button onClick={e => { handleClick(e) }}>
-                Volver a cargar todos los personajes
+                Volver a cargar todas las recetas
             </button>
-
+            <SearchBar />
             <div>
-                <select>
+                <select onChange={e => handleFilterTitle(e)}>
+                    <option > Orden Alfabético </option>
                     <option value="asc"> A - Z </option>
                     <option value="desc"> Z - A </option>
                 </select>
-                <select>
-                    <option value="ascPoints"> Ascendente </option>
-                    <option value="descPoints"> Descendente </option>
+                <select onChange={e => handleFilterPoints(e)}>
+                    <option > Orden por puntuación </option>
+                    <option value="ascPoints"> Menor a mayor puntuación </option>
+                    <option value="descPoints"> Mayor a menor puntuación </option>
                 </select>
-                <select>
-                    <option value="all">Todos</option>
+                <select onChange={e => handleFilterDiets(e)}>
+                    <option value="all">Todas las Dietas</option>
                     <option value="gluten free">Gluten free</option>
-                    <option value="ketogenic">Ketogenic</option>
-                    <option value="vegetarian">Vegetarian</option>
-                    <option value="lacto vegetarian">Lacto vegetarian</option>
-                    <option value="ovo vegetarian">Ovo vegetarian</option>
+                    <option value="dairy free">Dairy free</option>
+                    <option value="lacto ovo vegetarian">Lacto Ovo Vegetarian</option>
                     <option value="vegan">Vegan</option>
-                    <option value="pescetarian">Pescetarian</option>
-                    <option value="paleo">Paleo</option>
+                    <option value="paleolithic">Paleolithic</option>
                     <option value="primal">Primal</option>
-                    <option value="low fodmap">Low fodmap</option>
-                    <option value="whole30">Whole30</option>
+                    <option value="pescatarian">Pescatarian</option>
+                    <option value="fodmap friendly">Fodmap friendly</option>
+                    <option value="whole 30">Whole30</option>
                 </select>
-                {allRecipes?.map((e) => {
+
+                <Paginado
+                    recipesPerPage={recipesPerPage}
+                    allRecipes={allRecipes.length}
+                    paginado={paginado}
+                />
+                {currentRecipes?.map((e) => {
                     return (
-                        <fragment key={e.id}>
+                        <div key={e.id}>
                             <Link to={`/home/${e.id}`} >
-                                <h3>{e.title}</h3>
-                                <h5>{e.diets}</h5>
-                                <img src={e.image} alt="img not found" />
-                                {/* <Card title={e.title} diets={e.diets} image={e.image} key={e.id} /> */}
+                                <Card title={e.title} diets={e.diets.map(el => el.name ? el.name : el)} image={e.image} key={e.id} />
                             </Link>
-                        </fragment>
+                        </div>
                     )
                 })}
             </div>

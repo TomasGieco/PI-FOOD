@@ -12,7 +12,7 @@ const router = Router();
 // Ejemplo: router.use('/auth', authRouter);
 
 const getApiInfo = async () => {
-    const apiUrl = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?addRecipeInformation=true&diet&apiKey=${API_KEY}`);
+    const apiUrl = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?number=100&addRecipeInformation=true&diet&apiKey=${API_KEY}`);
     const apiInfo = await apiUrl.data.results.map(el => {
         return {
             id: el.id,
@@ -74,7 +74,8 @@ router.get('/recipes/:id', async (req, res) => {
 
 router.get('/types', async (req, res) => {
     let dietArray = Diet.findAll({ attributers: "name" });
-
+    // let dietArray = []
+    // let apiInfo = await getApiInfo()
     // apiInfo.forEach(e => {
     //     e.diets.forEach(element => {
     //         if (!dietArray.includes(element)) {
@@ -109,7 +110,7 @@ router.post('/recipe', async (req, res) => {
             where: { name: diets }
         });
         recipeCreated.addDiet(dietDb)
-        res.send(dietDb)
+        res.send('Receta cargada con exito')
     } else {
         recipeCreated.addDiet(dietDb)
         res.send('Receta cargada con exito')
