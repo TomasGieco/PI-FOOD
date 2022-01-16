@@ -21,7 +21,7 @@ module.exports = (sequelize) => {
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    spoonacularScore: {
+    score: {
       type: DataTypes.FLOAT
     },
     healthScore: {

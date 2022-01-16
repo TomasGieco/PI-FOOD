@@ -5,6 +5,7 @@ import { filterRecipesByDiets, filterRecipesByPoints, filterRecipesByTitle, getR
 import Card from "./Card"
 import Paginado from "./Paginado";
 import SearchBar from "./SearchBar";
+import axios from "axios";
 
 export default function Home() {
     const dispatch = useDispatch()
@@ -28,7 +29,7 @@ export default function Home() {
         dispatch(getRecipes());
     }, [dispatch])
 
-    function handleClick(e) {
+    async function handleClick(e) {
         e.preventDefault()
         dispatch(getRecipes());
     }

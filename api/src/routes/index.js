@@ -12,7 +12,7 @@ const router = Router();
 // Ejemplo: router.use('/auth', authRouter);
 
 const getApiInfo = async () => {
-    const apiUrl = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?number=100&addRecipeInformation=true&diet&apiKey=${API_KEY}`);
+    const apiUrl = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?&addRecipeInformation=true&diet&apiKey=${API_KEY}`);
     const apiInfo = await apiUrl.data.results.map(el => {
         return {
             id: el.id,
@@ -40,6 +40,7 @@ const getDbInfo = async () => {
     })
 }
 
+
 const getAllRecipes = async () => {
     const apiInfo = await getApiInfo();
     const dbInfo = await getDbInfo();
@@ -52,8 +53,10 @@ router.get('/recipes', async (req, res) => {
     const name = req.query.name
     if (name) {
         const apiUrl = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?number=100&query=${name}&addRecipeInformation=true&diet&apiKey=${API_KEY}`);
+        
         filtered = apiUrl.data.results.concat(await getDbInfo())
         let recipeNames = filtered.filter(e => e.title.toLowerCase().includes(name.toLowerCase()));
+        
         recipeNames.length ?
             res.status(200).send(recipeNames) :
             res.status(404).send('No hay receta Disponible')
@@ -65,11 +68,23 @@ router.get('/recipes', async (req, res) => {
 
 router.get('/recipes/:id', async (req, res) => {
     const { id } = req.params
-    const recipeId = await axios.get(`https://api.spoonacular.com/recipes/${id}/information?apiKey=${API_KEY}`);
-
-    recipeId ?
-        res.status(200).json({ summary: recipeId.data.summary, diets: recipeId.data.diets }) :
+    try{
+        const recipeId = await axios.get(`https://api.spoonacular.com/recipes/${id}/information?apiKey=${API_KEY}`);
+        recipeId ?
+        res.status(200).json(recipeId.data) :
         res.status(404).send('No existe receta con ese Id')
+    }catch(error){
+        const recipeId = await Recipe.findByPk(id,{
+            include:{
+                model:Diet,
+                through: {attributes: []},
+                 attributes: ["name"],
+                 exclude:["recipe_diets"]}
+                    })
+        recipeId ?
+        res.status(200).json(recipeId) :
+        res.status(404).send('No existe receta con ese Id')
+    } 
 });
 
 router.get('/types', async (req, res) => {
@@ -88,12 +103,12 @@ router.get('/types', async (req, res) => {
 });
 
 router.post('/recipe', async (req, res) => {
-    const { title, summary, spoonacularScore, healthScore, analyzedInstructions, image, createdInDb, diets } = req.body
+    const { title, summary, score, healthScore, analyzedInstructions, image, createdInDb, diets } = req.body
 
     let recipeCreated = await Recipe.create({
         title,
         summary,
-        spoonacularScore,
+        score,
         healthScore,
         analyzedInstructions,
         image,

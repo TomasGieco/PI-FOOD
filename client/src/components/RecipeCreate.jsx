@@ -23,6 +23,7 @@ export default function RecipeCreate() {
     }, [dispatch]);
 
     function handleChange(e) {
+        {console.log("input", input.diets)}
         setInput({
             ...input,
             [e.target.name]: e.target.value
@@ -40,7 +41,6 @@ export default function RecipeCreate() {
 
     function handleSubmit(e) {
         e.preventDefault()
-        console.log(input)
         dispatch(postRecipes(input))
         alert("Se te creo crack")
         setInput({
@@ -105,11 +105,10 @@ export default function RecipeCreate() {
                 {console.log("input", input.diets)}
                 <select onChange={e => handleSelect(e)}>
                     <option>Selecciona sus tipos de dieta</option>
-                    {diets.map(diet => {
-                        return (
+                    {diets.map(diet => diet.name? 
+                            console.log(diet.name): 
                             <option value={diet}>{diet}</option>
-                        )
-                    })}
+                    )}
                 </select>
                 <ul><li>{input.diets.map(el => {
                     return (
