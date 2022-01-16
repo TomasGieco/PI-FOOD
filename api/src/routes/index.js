@@ -73,16 +73,16 @@ router.get('/recipes/:id', async (req, res) => {
 });
 
 router.get('/types', async (req, res) => {
-    let dietArray = Diet.findAll({ attributers: "name" });
-    // let dietArray = []
-    // let apiInfo = await getApiInfo()
-    // apiInfo.forEach(e => {
-    //     e.diets.forEach(element => {
-    //         if (!dietArray.includes(element)) {
-    //             dietArray = dietArray.concat(element);
-    //         }
-    //     })
-    // });
+    // let dietArray = Diet.findAll({ attributers: "name" });
+    let dietArray = []
+    let apiInfo = await getAllRecipes()
+    apiInfo.forEach(e => {
+        e.diets.forEach(element => {
+            if (!dietArray.includes(element)) {
+                dietArray = dietArray.concat(element);
+            }
+        })
+    });
 
     res.status(200).json(dietArray)
 });
@@ -104,18 +104,8 @@ router.post('/recipe', async (req, res) => {
         where: { name: diets }
     });
 
-    if (dietDb.length === 0) {
-        await Diet.create({ name: diets })
-        dietDb = await Diet.findAll({
-            where: { name: diets }
-        });
-        recipeCreated.addDiet(dietDb)
-        res.send('Receta cargada con exito')
-    } else {
-        recipeCreated.addDiet(dietDb)
-        res.send('Receta cargada con exito')
-    }
-
+    recipeCreated.addDiet(dietDb)
+    res.send('Receta cargada con exito')
 });
 
 module.exports = router;

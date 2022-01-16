@@ -13,7 +13,7 @@ export default function Home() {
     {/*                PAGINADO                  */ }
 
     const [currentPage, setCurrentPage] = useState(1)
-    const [recipesPerPage, setRecipesPerPage] = useState(9)
+    const [recipesPerPage] = useState(9)
     const [ordenTitle, setOrdenTitle] = useState("")
     const [ordenPoints, setOrdenPoints] = useState("")
     const indexOfLastRecipe = currentPage * recipesPerPage
