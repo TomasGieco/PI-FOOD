@@ -5,7 +5,7 @@ import { filterRecipesByDiets, filterRecipesByPoints, filterRecipesByTitle, getR
 import Card from "./Card"
 import Paginado from "./Paginado";
 import SearchBar from "./SearchBar";
-import axios from "axios";
+import s from "../styles/home.module.css"
 
 export default function Home() {
     const dispatch = useDispatch()
@@ -54,14 +54,15 @@ export default function Home() {
     }
 
     return (
-        <div>
-            <Link to='/recipes'> Crear Recetas </Link>
-            <h1>Aguante el morfi</h1>
-            <button onClick={e => { handleClick(e) }}>
-                Volver a cargar todas las recetas
-            </button>
-            <SearchBar />
+        <div className={s.all}>
             <div>
+                <Link to='/recipes'> Crear Recetas </Link>
+                <h1>Aguante el morfi</h1>
+                <button onClick={e => { handleClick(e) }}>
+                    Volver a cargar todas las recetas
+                </button>
+                <SearchBar />
+
                 <select onChange={e => handleFilterTitle(e)}>
                     <option > Orden Alfabético </option>
                     <option value="asc"> A - Z </option>
@@ -90,16 +91,17 @@ export default function Home() {
                     allRecipes={allRecipes.length}
                     paginado={paginado}
                 />
+            </div>
+            <div className={s.recipes}>
                 {currentRecipes?.map((e) => {
                     return (
-                        <div key={e.id}>
-                            <Link to={`/home/${e.id}`} >
-                                <Card title={e.title} diets={e.diets.map(el => el.name ? el.name : el)} image={e.image} key={e.id} />
-                            </Link>
+                        <div key={e.id} className={s.cards}>
+                            <Card title={e.title} diets={e.diets.map(el => el.name ? el.name : el)} image={e.image} id={e.id} key={e.id} />
                         </div>
                     )
                 })}
             </div>
+
         </div>
     )
 }

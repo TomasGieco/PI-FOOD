@@ -23,7 +23,7 @@ export default function RecipeCreate() {
     }, [dispatch]);
 
     function handleChange(e) {
-        {console.log("input", input.diets)}
+        { console.log("input", input.diets) }
         setInput({
             ...input,
             [e.target.name]: e.target.value
@@ -52,6 +52,7 @@ export default function RecipeCreate() {
             image: "",
             diets: []
         })
+        history.push("/home")
     }
 
     function handleDelete(e) {
@@ -60,8 +61,6 @@ export default function RecipeCreate() {
             diets: input.diets.filter(diet => diet !== e)
         })
     }
-
-
 
     return (
         <div>
@@ -101,13 +100,11 @@ export default function RecipeCreate() {
                     <input type="text" value={input.image} name="image"
                         onChange={handleChange} />
                 </div>
-                {console.log("diets", diets)}
-                {console.log("input", input.diets)}
                 <select onChange={e => handleSelect(e)}>
                     <option>Selecciona sus tipos de dieta</option>
-                    {diets.map(diet => diet.name? 
-                            console.log(diet.name): 
-                            <option value={diet}>{diet}</option>
+                    {diets.map(diet => diet.name ?
+                        console.log(diet.name) :
+                        <option value={diet}>{diet}</option>
                     )}
                 </select>
                 <ul><li>{input.diets.map(el => {

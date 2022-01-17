@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Cormorant+Garamond:wght@300&display=swap');
+
+
+.all{
+    border: 3px solid rgb(233, 240, 206);
+    border-radius: 30px;
+    padding-bottom: 15px;
+    margin: 10px 10px 10px 10px;
+    background: rgba(112, 240, 240, 0.281);
+}
+.title{
+    font-family: 'Architects Daughter', cursive;
+    font-size: larger;
+    color: black;
+}
+
+.diet{
+    font-family: 'Cormorant Garamond', serif;
+    font-size: large;
+    color: black;
+}
+
+
+.image{
+    width: 70%;
+    height: 70%;
+    border-radius: 15px;
+    box-shadow: 2px 2px 10px 7px rgba(0, 0, 0, 0.472);
+}

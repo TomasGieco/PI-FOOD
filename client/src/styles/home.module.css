@@ -1,0 +1,8 @@
+.all{
+    display: flex;
+    flex-direction: column;
+}
+.cards{
+    width: 50%;
+    height: 50%;
+}
