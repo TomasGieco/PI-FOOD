@@ -1,0 +1,16 @@
+.aboveAll{
+    display: flex;
+    justify-content: center;
+}
+
+.all{
+    background-color: rgba(0, 255, 255, 0.335);
+    padding: 10px;
+    margin: 50px;
+    border-radius: 100px;
+    width: 70%;
+}
+
+.list{
+    list-style: none;
+}

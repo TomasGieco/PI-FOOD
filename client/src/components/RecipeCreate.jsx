@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom"
 import { postRecipes, getDiets } from "../actions/actions"
 import { useDispatch, useSelector } from "react-redux";
+import create from "../images/create.svg"
+import s from "../styles/recipeCreate.module.css"
 
 export default function RecipeCreate() {
     const dispatch = useDispatch()
@@ -63,60 +65,63 @@ export default function RecipeCreate() {
     }
 
     return (
-        <div>
-            <Link to="/home">
-                <button>Volver</button>
-            </Link>
-            <h1>¡Creá tu Receta!</h1>
+        <div className={s.aboveAll}>
+            <div className={s.all}>
 
-            <form onSubmit={e => handleSubmit(e)}>
-                <div>
-                    <label>Nombre:</label>
-                    <input type="text" value={input.title} name="title"
-                        onChange={handleChange} />
-                </div>
-                <div>
-                    <label>Resumen:</label>
-                    <input type="text" value={input.summary} name="summary"
-                        onChange={handleChange} />
-                </div>
-                <div>
-                    <label>Puntuacion de Receta</label>
-                    <input type="number" value={input.score} name="score"
-                        onChange={handleChange} />
-                </div>
-                <div>
-                    <label>Puntuacion Saludable:</label>
-                    <input type="number" value={input.healthScore} name="healthScore"
-                        onChange={handleChange} />
-                </div>
-                <div>
-                    <label>Instrucciones</label>
-                    <input type="text" value={input.analyzedInstructions} name="analyzedInstructions"
-                        onChange={handleChange} />
-                </div>
-                <div>
-                    <label>Imagen: </label>
-                    <input type="text" value={input.image} name="image"
-                        onChange={handleChange} />
-                </div>
-                <select onChange={e => handleSelect(e)}>
-                    <option>Selecciona sus tipos de dieta</option>
-                    {diets.map(diet => diet.name ?
-                        console.log(diet.name) :
-                        <option value={diet}>{diet}</option>
-                    )}
-                </select>
-                <ul><li>{input.diets.map(el => {
-                    return (
-                        <div>
-                            <p>{el}</p>
-                            <button onClick={() => handleDelete(el)}>X</button>
-                        </div>)
-                })}</li></ul>
+                <img src={create} alt="a" />
 
-                <button type="submit">Crear</button>
-            </form>
+                <form onSubmit={e => handleSubmit(e)}>
+                    <div>
+                        <label>Nombre:</label>
+                        <input type="text" value={input.title} name="title"
+                            onChange={handleChange} />
+                    </div>
+                    <div>
+                        <label>Resumen:</label>
+                        <input type="text" value={input.summary} name="summary"
+                            onChange={handleChange} />
+                    </div>
+                    <div>
+                        <label>Puntuacion de Receta</label>
+                        <input type="number" value={input.score} name="score"
+                            onChange={handleChange} />
+                    </div>
+                    <div>
+                        <label>Puntuacion Saludable:</label>
+                        <input type="number" value={input.healthScore} name="healthScore"
+                            onChange={handleChange} />
+                    </div>
+                    <div>
+                        <label>Instrucciones</label>
+                        <input type="text" value={input.analyzedInstructions} name="analyzedInstructions"
+                            onChange={handleChange} />
+                    </div>
+                    <div>
+                        <label>Imagen: </label>
+                        <input type="text" value={input.image} name="image"
+                            onChange={handleChange} />
+                    </div>
+                    <select onChange={e => handleSelect(e)}>
+                        <option>Selecciona sus tipos de dieta</option>
+                        {diets.map(diet => diet.name ?
+                            console.log(diet.name) :
+                            <option value={diet}>{diet}</option>
+                        )}
+                    </select>
+                    <ul className={s.list}><li>{input.diets.map(el => {
+                        return (
+                            <div>
+                                <p>{el}</p>
+                                <button onClick={() => handleDelete(el)}>X</button>
+                            </div>)
+                    })}</li></ul>
+
+                    <button type="submit">Crear</button>
+                    <Link to="/home">
+                        <button>Volver</button>
+                    </Link>
+                </form>
+            </div>
         </div>
     )
 }

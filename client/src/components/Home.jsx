@@ -7,6 +7,7 @@ import Paginado from "./Paginado";
 import SearchBar from "./SearchBar";
 import s from "../styles/home.module.css"
 import title from "../images/title.svg"
+import Loading from "./Loading";
 
 export default function Home() {
     const dispatch = useDispatch()
@@ -61,62 +62,66 @@ export default function Home() {
 
     {/* ---------------- RENDERIZADO ---------------- */ }
     return (
-        <div className={s.all}>
-            <div>
-                <img src={title} alt="a" />
-                <h2><Link to='/recipes' className={s.create}> Creat your own Recipes </Link></h2>
-                
-                <button onClick={e => { handleClick(e) }}>
-                    Reload all recipes
-                </button>
+        <div>
+            {Object.keys(currentRecipes).length !== 0 ?
+                <div className={s.all}>
+                    <div>
+                        <img src={title} alt="a" />
+                        <h2><Link to='/recipes' className={s.create}> Creat your own Recipes </Link></h2>
 
-                {/* ---------------- FILTROS ---------------- */ }
-                <SearchBar />
-            
-                <select onChange={e => handleFilterTitle(e)}>
-                    <option> Alphabetical order </option>
-                    <option value="asc"> A - Z </option>
-                    <option value="desc"> Z - A </option>
-                </select>
-                <select onChange={e => handleFilterPoints(e)}>
-                    <option> Points </option>
-                    <option value="ascPoints"> Lowest to highest score </option>
-                    <option value="descPoints"> Highest to lowest score </option>
-                </select>
-                <select onChange={e => handleFilterDiets(e)}>
-                    <option value="all">All diets</option>
-                    <option value="gluten free">Gluten free</option>
-                    <option value="dairy free">Dairy free</option>
-                    <option value="lacto ovo vegetarian">Lacto Ovo Vegetarian</option>
-                    <option value="vegan">Vegan</option>
-                    <option value="paleolithic">Paleolithic</option>
-                    <option value="primal">Primal</option>
-                    <option value="pescatarian">Pescatarian</option>
-                    <option value="fodmap friendly">Fodmap friendly</option>
-                    <option value="whole 30">Whole30</option>
-                </select>
+                        <button onClick={e => { handleClick(e) }}>
+                            Reload all recipes
+                        </button>
 
-                {/* ---------------- FIN FILTROS ---------------- */ }
+                        {/* ---------------- FILTROS ---------------- */}
+                        <SearchBar />
 
-                {/* ---------------- PAGINADO ---------------- */ }
-                <Paginado
-                    recipesPerPage={recipesPerPage}
-                    allRecipes={allRecipes.length}
-                    paginado={paginado}
-                />
-                {/* ---------------- FIN PAGINADO ---------------- */ }
-                
-            </div>
-            {/* ---------------- RECETAS ---------------- */ }
-            <div className={s.recipes}>
-                {currentRecipes?.map((e) => {
-                    return (
-                        <Card title={e.title} diets={e.diets.map(el => el.name ? el.name : el)} image={e.image} id={e.id} key={e.id} />
-                    )
-                })}
-            </div>
-            {/* ---------------- FIN RECETAS ---------------- */ }
+                        <select onChange={e => handleFilterTitle(e)}>
+                            <option> Alphabetical order </option>
+                            <option value="asc"> A - Z </option>
+                            <option value="desc"> Z - A </option>
+                        </select>
+                        <select onChange={e => handleFilterPoints(e)}>
+                            <option> Points </option>
+                            <option value="ascPoints"> Lowest to highest score </option>
+                            <option value="descPoints"> Highest to lowest score </option>
+                        </select>
+                        <select onChange={e => handleFilterDiets(e)}>
+                            <option value="all">All diets</option>
+                            <option value="gluten free">Gluten free</option>
+                            <option value="dairy free">Dairy free</option>
+                            <option value="lacto ovo vegetarian">Lacto Ovo Vegetarian</option>
+                            <option value="vegan">Vegan</option>
+                            <option value="paleolithic">Paleolithic</option>
+                            <option value="primal">Primal</option>
+                            <option value="pescatarian">Pescatarian</option>
+                            <option value="fodmap friendly">Fodmap friendly</option>
+                            <option value="whole 30">Whole30</option>
+                        </select>
 
+                        {/* ---------------- FIN FILTROS ---------------- */}
+
+                        {/* ---------------- PAGINADO ---------------- */}
+                        <Paginado
+                            recipesPerPage={recipesPerPage}
+                            allRecipes={allRecipes.length}
+                            paginado={paginado}
+                        />
+                        {/* ---------------- FIN PAGINADO ---------------- */}
+
+                    </div>
+                    {/* ---------------- RECETAS ---------------- */}
+                    <div className={s.recipes}>
+                        {currentRecipes?.map((e) => {
+                            return (
+                                <Card title={e.title} diets={e.diets.map(el => el.name ? el.name : el)} image={e.image} id={e.id} key={e.id} />
+                            )
+                        })}
+                    </div>
+                    {/* ---------------- FIN RECETAS ---------------- */}
+
+                </div> : <Loading />
+            }
         </div>
     )
     {/* ---------------- FIN RENDERIZADO ---------------- */ }
