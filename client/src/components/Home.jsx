@@ -6,12 +6,13 @@ import Card from "./Card"
 import Paginado from "./Paginado";
 import SearchBar from "./SearchBar";
 import s from "../styles/home.module.css"
+import title from "../images/title.svg"
 
 export default function Home() {
     const dispatch = useDispatch()
     const allRecipes = useSelector((state) => state.recipes)
 
-    {/*                PAGINADO                  */ }
+    {/*                PAGINADO Y FILTROS                  */ }
 
     const [currentPage, setCurrentPage] = useState(1)
     const [recipesPerPage] = useState(9)
@@ -21,6 +22,9 @@ export default function Home() {
     const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage
     const currentRecipes = allRecipes.slice(indexOfFirstRecipe, indexOfLastRecipe)
 
+    {/*                FIN PAGINADO Y FILTROS                  */ }
+
+    {/*                FUNCIONES                  */ }
     const paginado = (pageNumber) => {
         setCurrentPage(pageNumber)
     }
@@ -52,29 +56,35 @@ export default function Home() {
         setCurrentPage(1);
         setOrdenPoints(`Ordenado ${e.target.value}`)
     }
+    {/* ---------------- FIN FUNCIONES ---------------- */ }
 
+
+    {/* ---------------- RENDERIZADO ---------------- */ }
     return (
         <div className={s.all}>
             <div>
-                <Link to='/recipes'> Crear Recetas </Link>
-                <h1>Aguante el morfi</h1>
+                <img src={title} alt="a" />
+                <h2><Link to='/recipes' className={s.create}> Creat your own Recipes </Link></h2>
+                
                 <button onClick={e => { handleClick(e) }}>
-                    Volver a cargar todas las recetas
+                    Reload all recipes
                 </button>
-                <SearchBar />
 
+                {/* ---------------- FILTROS ---------------- */ }
+                <SearchBar />
+            
                 <select onChange={e => handleFilterTitle(e)}>
-                    <option > Orden Alfabético </option>
+                    <option> Alphabetical order </option>
                     <option value="asc"> A - Z </option>
                     <option value="desc"> Z - A </option>
                 </select>
                 <select onChange={e => handleFilterPoints(e)}>
-                    <option > Orden por puntuación </option>
-                    <option value="ascPoints"> Menor a mayor puntuación </option>
-                    <option value="descPoints"> Mayor a menor puntuación </option>
+                    <option> Points </option>
+                    <option value="ascPoints"> Lowest to highest score </option>
+                    <option value="descPoints"> Highest to lowest score </option>
                 </select>
                 <select onChange={e => handleFilterDiets(e)}>
-                    <option value="all">Todas las Dietas</option>
+                    <option value="all">All diets</option>
                     <option value="gluten free">Gluten free</option>
                     <option value="dairy free">Dairy free</option>
                     <option value="lacto ovo vegetarian">Lacto Ovo Vegetarian</option>
@@ -86,22 +96,28 @@ export default function Home() {
                     <option value="whole 30">Whole30</option>
                 </select>
 
+                {/* ---------------- FIN FILTROS ---------------- */ }
+
+                {/* ---------------- PAGINADO ---------------- */ }
                 <Paginado
                     recipesPerPage={recipesPerPage}
                     allRecipes={allRecipes.length}
                     paginado={paginado}
                 />
+                {/* ---------------- FIN PAGINADO ---------------- */ }
+                
             </div>
+            {/* ---------------- RECETAS ---------------- */ }
             <div className={s.recipes}>
                 {currentRecipes?.map((e) => {
                     return (
-                        <div key={e.id} className={s.cards}>
-                            <Card title={e.title} diets={e.diets.map(el => el.name ? el.name : el)} image={e.image} id={e.id} key={e.id} />
-                        </div>
+                        <Card title={e.title} diets={e.diets.map(el => el.name ? el.name : el)} image={e.image} id={e.id} key={e.id} />
                     )
                 })}
             </div>
+            {/* ---------------- FIN RECETAS ---------------- */ }
 
         </div>
     )
+    {/* ---------------- FIN RENDERIZADO ---------------- */ }
 }

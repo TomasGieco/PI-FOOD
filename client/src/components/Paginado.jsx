@@ -1,4 +1,5 @@
 import React from "react";
+import s from "../styles/paginado.module.css"
 
 export default function Paginado({ recipesPerPage, allRecipes, paginado }) {
     const pageNumbers = []
@@ -8,16 +9,16 @@ export default function Paginado({ recipesPerPage, allRecipes, paginado }) {
     }
 
     return (
-        <nav>
-            <ul className="paginado">
+        <div className={s.all}>
+            <ul className={s.paginado}>
                 {pageNumbers?.map(number => {
                     return (
-                        <li className="number" key={number}>
+                        <li className={s.number} key={number}>
                             <a onClick={() => paginado(number)}>{number}</a>
                         </li>
                     )
                 })}
             </ul>
-        </nav>
+        </div>
     )
 }

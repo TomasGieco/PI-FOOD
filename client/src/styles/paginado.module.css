@@ -1,0 +1,32 @@
+.all{
+    display: flex;
+    justify-content: row;
+    justify-content: center;
+}
+
+.paginado{
+    display: flex;
+    justify-content: row;
+    justify-content: center;
+    border-radius: 10px;
+    background-color:rgba(222, 184, 135, 0.192);
+}
+
+.number{
+    list-style:none;
+    border-radius: 10px;
+    color: peachpuff;
+    background-color: rgba(54, 64, 206, 0.5);
+    font-size: 20px;
+    margin: 10px;
+    height: 30px;
+    width: 30px;
+    cursor: pointer;
+    transition: ease-in .2s;
+}
+
+.number:hover{
+    height: 40px;
+    width: 40px;
+    font-size: 25px;
+}
