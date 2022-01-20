@@ -71,7 +71,6 @@ export function getDetail(payload) {
                 payload: json.data
             })
         } catch (error) {
-            console.log(error)
         }
     }
 }

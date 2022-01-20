@@ -10,3 +10,63 @@
     border-radius: 100px;
     width: 70%;
 }
+
+.summary,
+.instructions{
+    padding: 10px;
+    margin: 10px;
+    border-radius: 10px;
+    background-color: rgba(222, 184, 135, 0.644);
+}
+
+.fullDiets,
+.fullInstructions,
+.fullSummary,
+.fullPoints{
+    border: 2px solid black;
+    box-shadow: inset 1px 0px 10px 1px gold;
+    border-radius: 20px;
+    padding: 10px;
+    margin: 0px 70px 20px 70px;
+}
+.fullPoints{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+.diets{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    border-radius: 10px;
+    background-color: rgba(222, 184, 135, 0.644);
+    margin: 0px 100px 20px 100px;
+    font-style: italic;
+}
+
+.button{
+    font-size: large;
+    font-weight: 700;
+    text-decoration: none;
+    color: rgb(243, 141, 52);
+    background-color: rgba(222, 184, 135, 0.486);
+    border-radius: 10px;
+    border: 2px solid burlywood;
+    padding: 5px;
+    margin: 5px;
+}
+
+.button:hover{
+    background-color: rgba(112, 240, 240, 0.281);
+    cursor: pointer;
+}
+
+.image{
+    border: 2px solid rgb(237, 143, 100);
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.title{
+    font-style: italic;
+}

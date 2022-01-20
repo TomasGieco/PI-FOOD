@@ -19,31 +19,51 @@ export default function Detail(props) {
     }
 
     function createInstructions() {
-        return { __html: myRecipe.instructions ? myRecipe.instructions : myRecipe.analyzedInstructions }
+        if (myRecipe.instructions && myRecipe.instructions.length !== 0) {
+            return ({ __html: myRecipe.instructions })
+        }
+
+        else if (myRecipe.analyzedInstructions.length !== 0) {
+            return ({ __html: myRecipe.analyzedInstructions })
+        }
+
+        return ({ __html: "No instructions available" })
     }
     // function cleanRecipes() {
 
     // }
-
     return (
         <div>
             {Object.keys(myRecipe).length !== 0 ?
                 <div className={s.aboveAll}>
                     <div className={s.all}>
-                        <h1>Titulo: {myRecipe.title}</h1>
-                        <img src={myRecipe.image} alt="img not found" />
-                        <h2>Resumen: </h2>
-                        <h3 dangerouslySetInnerHTML={createSummary()}></h3>
-                        <h3>Puntuacion: {myRecipe.score ? myRecipe.score : myRecipe.spoonacularScore}</h3>
-                        <h3>Puntiacion Saludable: {myRecipe.healthScore}</h3>
-                        <h3>Instrucciones:</h3>
-                        <h3 dangerouslySetInnerHTML={createInstructions()}></h3>
-                        <h3>Dietas</h3>
-                        {myRecipe.diets.map(e => e.name ? <h3>{e.name}</h3> : <h3>{e}</h3>)}
+                        <h1 className={s.title}>{myRecipe.title}</h1>
 
+                        <img className={s.image} src={myRecipe.image} alt="img not found" />
+
+                        <div className={s.fullPoints}>
+                            <h3>Score: {myRecipe.score ? myRecipe.score : myRecipe.spoonacularScore}</h3>
+                            <h3>Health Score: {myRecipe.healthScore}</h3>
+                        </div>
+
+                        <div className={s.fullSummary}>
+                            <h2>Summary: </h2>
+                            <h3 className={s.summary} dangerouslySetInnerHTML={createSummary()}></h3>
+                        </div>
+                        <div className={s.fullInstructions}>
+                            <h3>Instructions:</h3>
+                            <h3 className={s.instructions} dangerouslySetInnerHTML={createInstructions()}></h3>
+                        </div>
+                        <div className={s.fullDiets}>
+                            <h3>Diets: </h3>
+                            <div className={s.diets}>
+                                {myRecipe.diets.map(e => e.name ? <h3>{e.name}</h3> : <h3>{e}</h3>)}
+                            </div>
+                        </div>
                         <div>
+
                             <Link to="/home">
-                                <button >
+                                <button className={s.button}>
                                     Volver
                                 </button>
                             </Link>

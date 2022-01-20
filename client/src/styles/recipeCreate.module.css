@@ -14,3 +14,94 @@
 .list{
     list-style: none;
 }
+
+.search {
+    background: #897c8d9a;
+    border-radius: 10px;
+    padding: 5px 5px 5px 15px;
+    margin: 5px 250px 1px 250px;
+
+}
+.textarea{
+    resize: none;
+
+}
+
+.input,
+.textarea {
+    width: 300px;
+    appearance: none;
+    background: transparent;
+    border: 0;
+    color: inherit;
+    font: inherit;
+    outline: 0;
+    font-weight: 500;
+    font-size: 18px;
+    color: rgb(182, 129, 231);
+}
+
+.diet{
+    color: rgb(97, 84, 72);
+    background-color: rgba(112, 240, 240, 0.281);
+    border-radius: 10px;
+    border: 2px solid burlywood;
+    padding: 5px;
+    font-size: large;
+    font-weight: 700;
+    margin: 10px;
+}
+.diet:hover,
+.diet:focus{
+    background-color: rgba(222, 184, 135, 0.486);
+    cursor: pointer;
+}
+
+.button{
+    font-size: large;
+    font-weight: 700;
+    text-decoration: none;
+    color: rgb(243, 141, 52);
+    background-color: rgba(222, 184, 135, 0.486);
+    border-radius: 10px;
+    border: 2px solid burlywood;
+    padding: 5px;
+    margin: 5px;
+}
+
+.button:hover{
+    background-color: rgba(112, 240, 240, 0.281);
+    cursor: pointer;
+}
+
+.delete{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 10px;
+}
+.subDelete{
+    padding: 0px 10px 0px 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: rgba(107, 158, 240, 0.315);
+    border-radius: 10px;
+    font-size: large;
+}
+
+.deleteText{
+    padding-right: 10px;
+}
+
+.deleteButton{
+    background-color: rgba(255, 0, 0, 0.411);
+    padding: 1px 5px 1px 5px;
+    border-radius: 10px;
+}
+.deleteButton:hover{
+    color: red;
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.411);
+
+}

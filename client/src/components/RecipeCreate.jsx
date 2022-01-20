@@ -10,6 +10,7 @@ export default function RecipeCreate() {
     const history = useHistory()
     const diets = useSelector(state => state.diets)
 
+    const [errors, setErrors] = useState({})
     const [input, setInput] = useState({
         title: "",
         summary: "",
@@ -24,13 +25,54 @@ export default function RecipeCreate() {
         dispatch(getDiets())
     }, [dispatch]);
 
+    function validate(input) {
+        let errors = {};
+        if (!input.title) {
+            errors.title = "Title required"
+        }
+
+        else if (!input.summary) {
+            errors.summary = "Summary required"
+        }
+
+        else if (!input.score) {
+            errors.score = "Score required"
+        }
+        else if (input.score > 100) {
+            errors.score = "Score max is 100"
+        }
+        else if (input.score < 1) {
+            errors.score = "Score min is 1"
+        }
+
+        else if (!input.healthScore) {
+            errors.healthScore = "Health score required"
+        }
+        else if (input.healthScore > 100) {
+            errors.healthScore = "Health Score max is 100"
+        }
+        else if (input.healthScore < 1) {
+            errors.healthScore = "Health Score min is 1"
+        }
+
+        else if (!input.analyzedInstructions) {
+            errors.analyzedInstructions = "Instructions required"
+        }
+        return errors;
+    }
+
     function handleChange(e) {
-        { console.log("input", input.diets) }
         setInput({
             ...input,
             [e.target.name]: e.target.value
         });
+        setErrors(validate({
+            ...input,
+            [e.target.name]: e.target.value
+        }))
     }
+
+
 
     function handleSelect(e) {
         if (e.target.value !== "Selecciona sus tipos de dieta" && !input.diets.includes(e.target.value)) {
@@ -70,58 +112,97 @@ export default function RecipeCreate() {
 
                 <img src={create} alt="a" />
 
-                <form onSubmit={e => handleSubmit(e)}>
-                    <div>
-                        <label>Nombre:</label>
-                        <input type="text" value={input.title} name="title"
+                <form className={s.form} onSubmit={e => handleSubmit(e)}>
+                    <div className={s.search}>
+
+                        <input className={s.input} placeholder="Title..." type="text" value={input.title} name="title"
                             onChange={handleChange} />
+
                     </div>
-                    <div>
-                        <label>Resumen:</label>
-                        <input type="text" value={input.summary} name="summary"
+                    {errors.title && (<p className={s.error}>{errors.title}</p>)}
+
+                    <div className={s.search}>
+                        <textarea className={s.textarea} rows="5" cols="40" placeholder="Summary..." type="text" value={input.summary} name="summary"
                             onChange={handleChange} />
+
                     </div>
-                    <div>
-                        <label>Puntuacion de Receta</label>
-                        <input type="number" value={input.score} name="score"
+                    {errors.summary && (<p className={s.error}>{errors.summary}</p>)}
+
+                    <div className={s.search}>
+
+                        <input className={s.input}
+                            max="100"
+                            min="1"
+                            placeholder="Score..."
+                            type="number"
+                            value={input.score}
+                            name="score"
                             onChange={handleChange} />
+
                     </div>
-                    <div>
-                        <label>Puntuacion Saludable:</label>
-                        <input type="number" value={input.healthScore} name="healthScore"
+                    {errors.score && (<p className={s.error}>{errors.score}</p>)}
+
+                    <div className={s.search}>
+
+                        <input className={s.input}
+                            max="100"
+                            min="1"
+                            placeholder="Health Score..."
+                            type="number"
+                            value={input.healthScore}
+                            name="healthScore"
                             onChange={handleChange} />
+
                     </div>
-                    <div>
-                        <label>Instrucciones</label>
-                        <input type="text" value={input.analyzedInstructions} name="analyzedInstructions"
+                    {errors.healthScore && (<p className={s.error}>{errors.healthScore}</p>)}
+
+                    <div className={s.search}>
+
+                        <input className={s.input} placeholder="Instructions..." type="text" value={input.analyzedInstructions} name="analyzedInstructions"
                             onChange={handleChange} />
+
                     </div>
-                    <div>
-                        <label>Imagen: </label>
-                        <input type="text" value={input.image} name="image"
+                    {errors.analyzedInstructions && (<p className={s.error}>{errors.analyzedInstructions}</p>)}
+
+                    <div className={s.search}>
+
+                        <input className={s.input} placeholder="URL Image..." type="text" value={input.image} name="image"
                             onChange={handleChange} />
+
                     </div>
-                    <select onChange={e => handleSelect(e)}>
+                    <select className={s.diet} onChange={e => handleSelect(e)}>
                         <option>Selecciona sus tipos de dieta</option>
-                        {diets.map(diet => diet.name ?
-                            console.log(diet.name) :
-                            <option value={diet}>{diet}</option>
+                        {diets.map(diet => {
+                            if (diet.name) {
+                                console.log(diet.name)
+                            } else {
+                                diet = diet[0].toUpperCase() + diet.substring(1)
+                                return (< option value={diet} > {diet}</option>)
+                            }
+                        }
                         )}
                     </select>
-                    <ul className={s.list}><li>{input.diets.map(el => {
-                        return (
-                            <div>
-                                <p>{el}</p>
-                                <button onClick={() => handleDelete(el)}>X</button>
-                            </div>)
-                    })}</li></ul>
+                    <ul className={s.list}>
+                        <li>{input.diets.map(el => {
+                            el = el[0].toUpperCase() + el.substring(1)
+                            return (
+                                <div className={s.delete}>
+                                    <div className={s.subDelete}>
+                                        <p className={s.deleteText}>{el}</p>
+                                        <a className={s.deleteButton} onClick={() => handleDelete(el)}>X</a>
+                                    </div>
+                                </div>
+                            )
+                        })}
+                        </li>
+                    </ul>
+                    {Object.keys(errors).length !== 0 ? <a className={s.button} onClick={e => alert("Finish your form first")}>Crear</a> : <button className={s.button} type="submit">Crear</button>}
 
-                    <button type="submit">Crear</button>
                     <Link to="/home">
-                        <button>Volver</button>
+                        <button className={s.button} type="button">Volver</button>
                     </Link>
                 </form>
             </div>
-        </div>
+        </div >
     )
 }
