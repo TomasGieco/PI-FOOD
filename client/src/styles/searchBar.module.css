@@ -1,0 +1,61 @@
+
+#search {
+    background: #897c8d9a;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 5px 5px 15px;
+    margin-left: 110px;
+    margin-right: 110px;
+}
+
+#search button:focus {
+    animation: tremble 0.4s ease-in-out;
+}
+
+#search button,
+#search input {
+    appearance: none;
+    background: transparent;
+    border: 0;
+    color: inherit;
+    font: inherit;
+    outline: 0
+}
+
+#search button {
+    cursor: pointer;
+    padding: 0 0.25em;
+    font-size: 20px;
+}
+
+#search input {
+    flex: 1;
+    font-weight: 500;
+    font-size: 18px;
+    color: rgb(182, 129, 231);
+}
+
+@keyframes tremble {
+    0%{
+        transform: rotate(0deg);
+    }
+    13%{
+        transform:rotate(25deg);
+    }
+    26%{
+        transform:rotate(-25deg);
+    }
+    50%{
+        transform: rotate(0deg);
+    }
+    63%{
+        transform:rotate(15deg);
+    }
+    76%{
+        transform:rotate(-15deg);
+    }
+    100%{
+        transform: rotate(0deg);
+    }
+}

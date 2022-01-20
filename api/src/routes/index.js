@@ -53,10 +53,10 @@ router.get('/recipes', async (req, res) => {
     const name = req.query.name
     if (name) {
         const apiUrl = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?number=100&query=${name}&addRecipeInformation=true&diet&apiKey=${API_KEY}`);
-        
+
         filtered = apiUrl.data.results.concat(await getDbInfo())
         let recipeNames = filtered.filter(e => e.title.toLowerCase().includes(name.toLowerCase()));
-        
+
         recipeNames.length ?
             res.status(200).send(recipeNames) :
             res.status(404).send('No hay receta Disponible')
@@ -68,23 +68,24 @@ router.get('/recipes', async (req, res) => {
 
 router.get('/recipes/:id', async (req, res) => {
     const { id } = req.params
-    try{
+    try {
         const recipeId = await axios.get(`https://api.spoonacular.com/recipes/${id}/information?apiKey=${API_KEY}`);
         recipeId ?
-        res.status(200).json(recipeId.data) :
-        res.status(404).send('No existe receta con ese Id')
-    }catch(error){
-        const recipeId = await Recipe.findByPk(id,{
-            include:{
-                model:Diet,
-                through: {attributes: []},
-                 attributes: ["name"],
-                 exclude:["recipe_diets"]}
-                    })
+            res.status(200).json(recipeId.data) :
+            res.status(404).send('No existe receta con ese Id')
+    } catch (error) {
+        const recipeId = await Recipe.findByPk(id, {
+            include: {
+                model: Diet,
+                through: { attributes: [] },
+                attributes: ["name"],
+                exclude: ["recipe_diets"]
+            }
+        })
         recipeId ?
-        res.status(200).json(recipeId) :
-        res.status(404).send('No existe receta con ese Id')
-    } 
+            res.status(200).json(recipeId) :
+            res.status(404).send('No existe receta con ese Id')
+    }
 });
 
 router.get('/types', async (req, res) => {

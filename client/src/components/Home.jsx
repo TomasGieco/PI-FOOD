@@ -64,42 +64,15 @@ export default function Home() {
     return (
         <div>
             {Object.keys(currentRecipes).length !== 0 ?
-                <div className={s.all}>
-                    <div>
+                <div>
+                    <div className={s.filters}>
                         <img src={title} alt="a" />
                         <h2><Link to='/recipes' className={s.create}> Creat your own Recipes </Link></h2>
 
-                        <button onClick={e => { handleClick(e) }}>
-                            Reload all recipes
+                        <button className={s.reset} onClick={e => { handleClick(e) }}>
+                            Reset all recipes
                         </button>
 
-                        {/* ---------------- FILTROS ---------------- */}
-                        <SearchBar />
-
-                        <select onChange={e => handleFilterTitle(e)}>
-                            <option> Alphabetical order </option>
-                            <option value="asc"> A - Z </option>
-                            <option value="desc"> Z - A </option>
-                        </select>
-                        <select onChange={e => handleFilterPoints(e)}>
-                            <option> Points </option>
-                            <option value="ascPoints"> Lowest to highest score </option>
-                            <option value="descPoints"> Highest to lowest score </option>
-                        </select>
-                        <select onChange={e => handleFilterDiets(e)}>
-                            <option value="all">All diets</option>
-                            <option value="gluten free">Gluten free</option>
-                            <option value="dairy free">Dairy free</option>
-                            <option value="lacto ovo vegetarian">Lacto Ovo Vegetarian</option>
-                            <option value="vegan">Vegan</option>
-                            <option value="paleolithic">Paleolithic</option>
-                            <option value="primal">Primal</option>
-                            <option value="pescatarian">Pescatarian</option>
-                            <option value="fodmap friendly">Fodmap friendly</option>
-                            <option value="whole 30">Whole30</option>
-                        </select>
-
-                        {/* ---------------- FIN FILTROS ---------------- */}
 
                         {/* ---------------- PAGINADO ---------------- */}
                         <Paginado
@@ -108,7 +81,33 @@ export default function Home() {
                             paginado={paginado}
                         />
                         {/* ---------------- FIN PAGINADO ---------------- */}
-
+                        {/* ---------------- FILTROS ---------------- */}
+                        <SearchBar />
+                        <div className={s.orders}>
+                            <select className={s.order} onChange={e => handleFilterTitle(e)}>
+                                <option> Alphabetical order </option>
+                                <option value="asc"> A - Z </option>
+                                <option value="desc"> Z - A </option>
+                            </select>
+                            <select className={s.order} onChange={e => handleFilterPoints(e)}>
+                                <option> Points </option>
+                                <option value="ascPoints"> Lowest to highest score </option>
+                                <option value="descPoints"> Highest to lowest score </option>
+                            </select>
+                            <select className={s.order} onChange={e => handleFilterDiets(e)}>
+                                <option value="all">All diets</option>
+                                <option value="gluten free">Gluten free</option>
+                                <option value="dairy free">Dairy free</option>
+                                <option value="lacto ovo vegetarian">Lacto Ovo Vegetarian</option>
+                                <option value="vegan">Vegan</option>
+                                <option value="paleolithic">Paleolithic</option>
+                                <option value="primal">Primal</option>
+                                <option value="pescatarian">Pescatarian</option>
+                                <option value="fodmap friendly">Fodmap friendly</option>
+                                <option value="whole 30">Whole30</option>
+                            </select>
+                        </div>
+                        {/* ---------------- FIN FILTROS ---------------- */}
                     </div>
                     {/* ---------------- RECETAS ---------------- */}
                     <div className={s.recipes}>

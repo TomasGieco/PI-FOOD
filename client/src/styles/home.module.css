@@ -1,8 +1,6 @@
 
-.all{
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    position: absolute;
+.filters{
+    margin: 10px 20px 20px 20px;
 }
 
 .recipes {
@@ -16,7 +14,8 @@
     grid-auto-rows: minmax(100px, auto);
 }
 
-.create{
+.create,
+.reset{
     text-decoration: none;
     color: rgb(243, 141, 52);
     background-color: rgba(222, 184, 135, 0.486);
@@ -24,7 +23,41 @@
     border: 2px solid burlywood;
     padding: 5px;
 }
-.create:hover{
+.create:hover,
+.reset:hover{
     background-color: rgba(112, 240, 240, 0.281);
     cursor: pointer;
 }
+
+.reset{
+    font-size: large;
+    font-weight: 700;
+}
+
+.order{
+    color: rgb(97, 84, 72);
+    background-color: rgba(222, 184, 135, 0.486);
+    border-radius: 10px;
+    border: 2px solid burlywood;
+    padding: 5px;
+    font-size: large;
+    font-weight: 700;
+    margin: 10px;
+}
+.order:hover,
+.order:focus{
+    background-color: rgba(112, 240, 240, 0.281);
+    cursor: pointer;
+}
+
+.orders{
+    display: flex;
+    justify-content: space-evenly;
+    margin: 10px;
+    background-color: rgba(134, 240, 240, 0.349);
+    border-radius: 20px;
+    border: 2px solid peachpuff;
+    margin-left: 100px;
+    margin-right: 100px;
+}
+
