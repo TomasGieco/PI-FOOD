@@ -2,10 +2,6 @@
 
 Web application where you can find different types of cooking recipes connected through the Spoonacular API. From there you can filter, order, create and delete them.   
 
-<p align="center">
-  <img height="300" src="./Henry Food Portada.png" />
-</p>
-
 ### Requirements 📋
 
 If you like to run local you will need to:
